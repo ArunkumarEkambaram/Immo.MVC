@@ -1,7 +1,16 @@
+using Immo.MVC.Day2.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Resolve ConnectionString 
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("ImmoDBConn"));
+});
 
 var app = builder.Build();
 

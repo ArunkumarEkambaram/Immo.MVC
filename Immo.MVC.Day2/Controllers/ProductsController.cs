@@ -1,62 +1,92 @@
 ﻿using Immo.MVC.Day2.Models;
-using Immo.MVC.Day2.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Immo.MVC.Day2.Controllers
 {
     public class ProductsController : Controller
     {
+        private readonly ApplicationDbContext _dbContext = null;
+
+        public ProductsController(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public IActionResult Index()
         {
-            //ViewBag.Products = GetProducts();
-            //ViewData["Products"] = GetProducts();
-            //var products = GetProducts();
-            var products = GetProductAndCategories();
+            var products = _dbContext.Products.ToList(); 
             return View(products);
         }
 
         public IActionResult Details(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return BadRequest("Invalid Request");
             }
-            var product = GetProducts().FirstOrDefault(x => x.Id == id);
-            if (product == null) 
+            var product = _dbContext.Products.FirstOrDefault(x => x.Id == id);
+            if (product == null)
             {
                 return NotFound();
             }
-            return View("GetProduct",product);
+            return View("GetProduct", product);
         }
 
-        [NonAction]
-        public IEnumerable<Product> GetProducts()
+        //Create Product - GET
+        public IActionResult Create()
         {
-            return new List<Product>
-            {
-                new Product { Id = 1, ProductName="Laptop", Price= 500000.5M, Quantity=100 },
-                new () { Id = 2, ProductName="Water Bottle", Price= 850, Quantity=252 },
-                new () { Id = 3, ProductName="Watch", Price= 7599.99M, Quantity=15 },
-                new() { Id = 4, ProductName="Mobile Phone", Price= 19999.99M, Quantity=50 },
-             };
+            return View(new Product());
         }
 
-        [NonAction]
-        public ProductAndCategoryViewModel GetProductAndCategories()
+        [HttpPost]
+        public IActionResult Create(Product product)
         {
-            var products = GetProducts();
-            var categoies = new List<Category>
+            if (product == null)
             {
-                new Category { Id = 1, CategoryName="Electronics" },
-                new Category { Id = 2, CategoryName="Accessories" },
-            };
+                return BadRequest("INavlid Request");
+            }
 
-            return new ProductAndCategoryViewModel
+            if (ModelState.IsValid)
             {
-                Product = products,
-                Category = categoies,
-            };
-
+                _dbContext.Products.Add(product);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
+
+        #region MyRegion
+
+        //[NonAction]
+        //public IEnumerable<Product> GetProducts()
+        //{
+        //    return new List<Product>
+        //    {
+        //        new Product { Id = 1, ProductName="Laptop", Price= 500000.5M, Quantity=100 },
+        //        new () { Id = 2, ProductName="Water Bottle", Price= 850, Quantity=252 },
+        //        new () { Id = 3, ProductName="Watch", Price= 7599.99M, Quantity=15 },
+        //        new() { Id = 4, ProductName="Mobile Phone", Price= 19999.99M, Quantity=50 },
+        //     };
+        //}
+
+        //[NonAction]
+        //public ProductAndCategoryViewModel GetProductAndCategories()
+        //{
+        //    var products = GetProducts();
+        //    var categoies = new List<Category>
+        //    {
+        //        new Category { Id = 1, CategoryName="Electronics" },
+        //        new Category { Id = 2, CategoryName="Accessories" },
+        //    };
+
+        //    return new ProductAndCategoryViewModel
+        //    {
+        //        Product = products,
+        //        Category = categoies,
+        //    };
+
+        //}
+
+        #endregion
     }
 }

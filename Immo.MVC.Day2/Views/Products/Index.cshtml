@@ -4,9 +4,9 @@
 } *@
 
 @*Below code will create a object for Product class named "Model"*@
-@* @model IEnumerable<Product> *@
+@model IEnumerable<Product>
 
-@model ProductAndCategoryViewModel
+@* @model ProductAndCategoryViewModel *@
 
 <h2>List of Products</h2>
 <table class="table table-bordered">
@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model.Product)
+        @foreach (var product in Model)
         {
             <tr>
                 <td>@product.Id</td>
