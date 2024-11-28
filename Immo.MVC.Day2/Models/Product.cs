@@ -8,7 +8,7 @@ namespace Immo.MVC.Day2.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Please enter Product Name")]
         [DisplayName("Product Name")]
         public string ProductName { get; set; }
 
