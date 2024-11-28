@@ -15,6 +15,20 @@ namespace Immo.MVC.Day2.Controllers
             return View(products);
         }
 
+        public IActionResult Details(int? id)
+        {
+            if(id == null)
+            {
+                return BadRequest("Invalid Request");
+            }
+            var product = GetProducts().FirstOrDefault(x => x.Id == id);
+            if (product == null) 
+            {
+                return NotFound();
+            }
+            return View("GetProduct",product);
+        }
+
         [NonAction]
         public IEnumerable<Product> GetProducts()
         {
