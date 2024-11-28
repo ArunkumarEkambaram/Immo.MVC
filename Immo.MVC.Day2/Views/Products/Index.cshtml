@@ -1,7 +1,13 @@
-﻿@{
-    IEnumerable<Product> products = ViewBag.Products;
+﻿@* @{
+   // IEnumerable<Product> products = ViewBag.Products;
     //   IEnumerable<Product> products2 = ViewData["Products"] as List<Product>;
-}
+} *@
+
+@*Below code will create a object for Product class named "Model"*@
+@* @model IEnumerable<Product> *@
+ 
+@model ProductAndCategoryViewModel
+
 <h2>List of Products</h2>
 <table class="table table-bordered">
     <thead>
@@ -13,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in products)
+        @foreach (var product in Model.Product)
         {
             <tr>
                 <td>@product.Id</td>
