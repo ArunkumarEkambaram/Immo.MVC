@@ -30,13 +30,7 @@ namespace Immo.MVC.Day2.Controllers
         [NonAction]
         public ProductAndCategoryViewModel GetProductAndCategories()
         {
-            var products = new List<Product>
-            {
-                new Product { Id = 1, ProductName="Laptop", Price= 500000.5M, Quantity=100 },
-                new () { Id = 2, ProductName="Water Bottle", Price= 850, Quantity=252 },
-                new () { Id = 3, ProductName="Watch", Price= 7599.99M, Quantity=15 },
-                new() { Id = 4, ProductName="Mobile Phone", Price= 19999.99M, Quantity=50 },
-             };
+            var products = GetProducts();
             var categoies = new List<Category>
             {
                 new Category { Id = 1, CategoryName="Electronics" },
