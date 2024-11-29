@@ -1,4 +1,5 @@
 using Immo.MVC.Day2.Models;
+using Immo.MVC.Day2.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("ImmoDBConn"));
 });
+
+//Resolve DI
+builder.Services.AddScoped<IRepositoryWithCategory<Product>, ProductRepository>();
 
 var app = builder.Build();
 

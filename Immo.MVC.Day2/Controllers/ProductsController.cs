@@ -31,9 +31,6 @@ namespace Immo.MVC.Day2.Controllers
                 var searchedProducts = products.Where(p => p.ProductName.Contains(productName, StringComparison.OrdinalIgnoreCase)).ToList();
                 return View(searchedProducts);
             }
-
-            //ViewBag.SearchString = productName;
-
             return View(products);
         }
 
@@ -177,6 +174,8 @@ namespace Immo.MVC.Day2.Controllers
 
             #endregion
         }
+
+        
 
         [NonAction]
         public async Task<IEnumerable<SelectListItem>> Categories()
