@@ -1,5 +1,7 @@
 ﻿using Immo.MVC.Day2.Models;
+using Immo.MVC.Day2.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Immo.MVC.Day2.Controllers
 {
@@ -12,19 +14,30 @@ namespace Immo.MVC.Day2.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var products = _dbContext.Products.ToList();
+            //var products = _dbContext.Products.ToList();
+            var products = await _dbContext.Products.Include(p => p.Category).Select(
+                p => new ProductWithCategory
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    AddedDate = DateTime.Now,
+                    CategoryName = p.Category.CategoryName
+                }).ToListAsync();
+
             return View(products);
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return BadRequest("Invalid Request");
             }
-            var product = _dbContext.Products.FirstOrDefault(x => x.Id == id);
+            var product = await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -40,7 +53,7 @@ namespace Immo.MVC.Day2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (product == null)
             {
@@ -50,25 +63,25 @@ namespace Immo.MVC.Day2.Controllers
             if (ModelState.IsValid)
             {
                 _dbContext.Products.Add(product);
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View();
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (!id.HasValue)
             {
                 return NotFound();
             }
-            var product = _dbContext.Products.Find(id.Value);
+            var product = await _dbContext.Products.FindAsync(id.Value);
             return View(product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product product)
+        public async Task<IActionResult> Edit(Product product)
         {
             if (product == null)
             {
@@ -76,21 +89,21 @@ namespace Immo.MVC.Day2.Controllers
             }
             if (ModelState.IsValid)
             {
-                var productFromView = _dbContext.Products.Find(product.Id);
+                var productFromView = await _dbContext.Products.FindAsync(product.Id);
                 if (productFromView != null)
                 {
                     productFromView.ProductName = product.ProductName;
                     productFromView.Price = product.Price;
                     productFromView.Quantity = product.Quantity;
                     _dbContext.Update(productFromView);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
             }
             return View(product);
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (!id.HasValue)
             {
@@ -98,11 +111,11 @@ namespace Immo.MVC.Day2.Controllers
             }
             else
             {
-                var product = _dbContext.Products.Find(id.Value);
+                var product = await _dbContext.Products.FindAsync(id.Value);
                 if (product != null)
                 {
                     _dbContext.Products.Remove(product);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
             }

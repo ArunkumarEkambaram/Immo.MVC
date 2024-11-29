@@ -9,6 +9,14 @@ namespace Immo.MVC.Day2.Models
 
         }
 
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Product>()
+        //        .HasOne(p => p.Category)
+        //        .WithMany(c => c.Products)
+        //        .HasForeignKey(p => p.CategoryId);
+        //}
+
         //DbSet
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
