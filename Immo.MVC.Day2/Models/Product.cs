@@ -18,6 +18,7 @@ namespace Immo.MVC.Day2.Models
 
         [Required]
         public int? Quantity { get; set; }
+
         public DateTime AddedDate { get; set; } = DateTime.Now;
 
         //Reference

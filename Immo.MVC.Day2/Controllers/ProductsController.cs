@@ -14,7 +14,7 @@ namespace Immo.MVC.Day2.Controllers
 
         public IActionResult Index()
         {
-            var products = _dbContext.Products.ToList(); 
+            var products = _dbContext.Products.ToList();
             return View(products);
         }
 
@@ -39,6 +39,7 @@ namespace Immo.MVC.Day2.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
         {
             if (product == null)
@@ -50,43 +51,96 @@ namespace Immo.MVC.Day2.Controllers
             {
                 _dbContext.Products.Add(product);
                 _dbContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             return View();
         }
 
-        #region MyRegion
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+            var product = _dbContext.Products.Find(id.Value);
+            return View(product);
+        }
 
-        //[NonAction]
-        //public IEnumerable<Product> GetProducts()
-        //{
-        //    return new List<Product>
-        //    {
-        //        new Product { Id = 1, ProductName="Laptop", Price= 500000.5M, Quantity=100 },
-        //        new () { Id = 2, ProductName="Water Bottle", Price= 850, Quantity=252 },
-        //        new () { Id = 3, ProductName="Watch", Price= 7599.99M, Quantity=15 },
-        //        new() { Id = 4, ProductName="Mobile Phone", Price= 19999.99M, Quantity=50 },
-        //     };
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Product product)
+        {
+            if (product == null)
+            {
+                return BadRequest("Product not found");
+            }
+            if (ModelState.IsValid)
+            {
+                var productFromView = _dbContext.Products.Find(product.Id);
+                if (productFromView != null)
+                {
+                    productFromView.ProductName = product.ProductName;
+                    productFromView.Price = product.Price;
+                    productFromView.Quantity = product.Quantity;
+                    _dbContext.Update(productFromView);
+                    _dbContext.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            return View(product);
+        }
 
-        //[NonAction]
-        //public ProductAndCategoryViewModel GetProductAndCategories()
-        //{
-        //    var products = GetProducts();
-        //    var categoies = new List<Category>
-        //    {
-        //        new Category { Id = 1, CategoryName="Electronics" },
-        //        new Category { Id = 2, CategoryName="Accessories" },
-        //    };
+        public IActionResult Delete(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var product = _dbContext.Products.Find(id.Value);
+                if (product != null)
+                {
+                    _dbContext.Products.Remove(product);
+                    _dbContext.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            return View();
 
-        //    return new ProductAndCategoryViewModel
-        //    {
-        //        Product = products,
-        //        Category = categoies,
-        //    };
+            #region Old Code
 
-        //}
+            //[NonAction]
+            //public IEnumerable<Product> GetProducts()
+            //{
+            //    return new List<Product>
+            //    {
+            //        new Product { Id = 1, ProductName="Laptop", Price= 500000.5M, Quantity=100 },
+            //        new () { Id = 2, ProductName="Water Bottle", Price= 850, Quantity=252 },
+            //        new () { Id = 3, ProductName="Watch", Price= 7599.99M, Quantity=15 },
+            //        new() { Id = 4, ProductName="Mobile Phone", Price= 19999.99M, Quantity=50 },
+            //     };
+            //}
 
-        #endregion
+            //[NonAction]
+            //public ProductAndCategoryViewModel GetProductAndCategories()
+            //{
+            //    var products = GetProducts();
+            //    var categoies = new List<Category>
+            //    {
+            //        new Category { Id = 1, CategoryName="Electronics" },
+            //        new Category { Id = 2, CategoryName="Accessories" },
+            //    };
+
+            //    return new ProductAndCategoryViewModel
+            //    {
+            //        Product = products,
+            //        Category = categoies,
+            //    };
+
+            //}
+
+            #endregion
+        }
     }
 }
