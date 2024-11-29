@@ -1,7 +1,9 @@
 ﻿using Immo.MVC.Day2.Models;
 using Immo.MVC.Day2.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+//MVC5 - using System.Data.Entity;
 
 namespace Immo.MVC.Day2.Controllers
 {
@@ -14,19 +16,25 @@ namespace Immo.MVC.Day2.Controllers
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string productName)
         {
-            //var products = _dbContext.Products.ToList();
-            var products = await _dbContext.Products.Include(p => p.Category).Select(
-                p => new ProductWithCategory
+            var products = await _dbContext.Products.Include(p => p.Category)
+                .Select(p => new ProductWithCategory
                 {
                     Id = p.Id,
                     ProductName = p.ProductName,
                     Price = p.Price,
                     Quantity = p.Quantity,
-                    AddedDate = DateTime.Now,
                     CategoryName = p.Category.CategoryName
                 }).ToListAsync();
+
+            if (!string.IsNullOrEmpty(productName))
+            {
+                var searchedProducts = products.Where(p => p.ProductName.Contains(productName,StringComparison.OrdinalIgnoreCase)).ToList();
+                return View(searchedProducts);
+            }
+
+            ViewBag.SearchString = productName;
 
             return View(products);
         }
@@ -46,8 +54,9 @@ namespace Immo.MVC.Day2.Controllers
         }
 
         //Create Product - GET
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Categories = await Categories();
             return View(new Product());
         }
 
@@ -57,7 +66,7 @@ namespace Immo.MVC.Day2.Controllers
         {
             if (product == null)
             {
-                return BadRequest("INavlid Request");
+                return BadRequest("Inavlid Request");
             }
 
             if (ModelState.IsValid)
@@ -66,6 +75,7 @@ namespace Immo.MVC.Day2.Controllers
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Categories = await Categories();
             return View();
         }
 
@@ -75,7 +85,12 @@ namespace Immo.MVC.Day2.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Categories = await Categories();
             var product = await _dbContext.Products.FindAsync(id.Value);
+            if (product == null)
+            {
+                return NotFound();
+            }
             return View(product);
         }
 
@@ -100,6 +115,7 @@ namespace Immo.MVC.Day2.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
+            ViewBag.Categories = await Categories();
             return View(product);
         }
 
@@ -154,6 +170,17 @@ namespace Immo.MVC.Day2.Controllers
             //}
 
             #endregion
+        }
+
+        [NonAction]
+        public async Task<IEnumerable<SelectListItem>> Categories()
+        {
+            return await _dbContext.Categories
+                .Select(c => new SelectListItem
+                {
+                    Text = c.CategoryName,
+                    Value = c.Id.ToString()
+                }).ToListAsync();
         }
     }
 }

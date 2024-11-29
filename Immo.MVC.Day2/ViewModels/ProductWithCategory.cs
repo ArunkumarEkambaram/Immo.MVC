@@ -8,9 +8,7 @@
 
         public decimal? Price { get; set; }
 
-        public int? Quantity { get; set; }
-
-        public DateTime AddedDate { get; set; } = DateTime.Now;
+        public int? Quantity { get; set; }      
 
         public string CategoryName { get; set; }
     }
