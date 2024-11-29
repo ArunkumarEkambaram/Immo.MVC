@@ -22,19 +22,17 @@ namespace Immo.MVC.Day2.Controllers
                 .Select(p => new ProductWithCategory
                 {
                     Id = p.Id,
-                    ProductName = p.ProductName,
-                    Price = p.Price,
-                    Quantity = p.Quantity,
+                    ProductName = p.ProductName,                   
                     CategoryName = p.Category.CategoryName
                 }).ToListAsync();
 
             if (!string.IsNullOrEmpty(productName))
             {
-                var searchedProducts = products.Where(p => p.ProductName.Contains(productName,StringComparison.OrdinalIgnoreCase)).ToList();
+                var searchedProducts = products.Where(p => p.ProductName.Contains(productName, StringComparison.OrdinalIgnoreCase)).ToList();
                 return View(searchedProducts);
             }
 
-            ViewBag.SearchString = productName;
+            //ViewBag.SearchString = productName;
 
             return View(products);
         }
@@ -56,8 +54,12 @@ namespace Immo.MVC.Day2.Controllers
         //Create Product - GET
         public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = await Categories();
-            return View(new Product());
+            // ViewBag.Categories = await Categories();
+            AddProductViewModel vm = new AddProductViewModel
+            {
+                Categories = await this.Categories()
+            };
+            return View(vm);
         }
 
         [HttpPost]
@@ -75,8 +77,12 @@ namespace Immo.MVC.Day2.Controllers
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Categories = await Categories();
-            return View();
+            //ViewBag.Categories = await Categories();
+            AddProductViewModel vm = new AddProductViewModel
+            {
+                Categories = await this.Categories()
+            };
+            return View(vm);
         }
 
         public async Task<IActionResult> Edit(int? id)

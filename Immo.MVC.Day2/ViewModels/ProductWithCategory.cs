@@ -1,4 +1,6 @@
-﻿namespace Immo.MVC.Day2.ViewModels
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Immo.MVC.Day2.ViewModels
 {
     public class ProductWithCategory
     {
@@ -10,6 +12,6 @@
 
         public int? Quantity { get; set; }      
 
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; }      
     }
 }

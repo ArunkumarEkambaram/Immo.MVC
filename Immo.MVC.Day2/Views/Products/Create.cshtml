@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model AddProductViewModel
 
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
@@ -22,7 +22,7 @@
             </div>
             <div>
                 <label class="form-label" for="selectCategoryId">Category Name</label>
-                <select id="selectCategoryId" class="form-select" asp-items="ViewBag.Categories">
+                <select asp-for="@Model.CategoryId" class="form-select" asp-items="@Model.Categories">
                     <option disabled selected>--Select--</option>
                 </select>
             </div>
