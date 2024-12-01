@@ -8,6 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//Register Custom Exception Filter Globally
+//Either add filter globally or in the controller or action method
+//builder.Services.AddControllersWithViews(options =>
+//{
+//    options.Filters.Add<CustomExceptionFilter>();
+//});
+
 //Resolve ConnectionString 
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
@@ -16,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 
 //Resolve DI
 builder.Services.AddScoped<IRepositoryWithCategory<Product>, ProductRepository>();
+//builder.Services.AddScoped<CustomExceptionFilter>();
 
 var app = builder.Build();
 

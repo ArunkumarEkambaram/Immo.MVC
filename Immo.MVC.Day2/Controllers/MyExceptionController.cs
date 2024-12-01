@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Immo.MVC.Day2.GlobalExceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Immo.MVC.Day2.Controllers
 {
+    [TypeFilter(typeof(CustomExceptionFilter))]
     public class MyExceptionController : Controller
-    {
+    {      
         public IActionResult Index(int? id)
         {
             if (id == 1)
