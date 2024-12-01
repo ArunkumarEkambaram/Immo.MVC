@@ -3,7 +3,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Immo.MVC.Day2.GlobalExceptions
 {
-    public static class FileNotFoundExceptionHandler
+    public static class CustomExceptionHandler
     {
         public static void CustomError(IApplicationBuilder app)
         {
@@ -13,16 +13,16 @@ namespace Immo.MVC.Day2.GlobalExceptions
                  context.Response.ContentType = Text.Html;
 
                  await context.Response.WriteAsync("<html><body>\r\n");
-                 await context.Response.WriteAsync("<h3>Error!!!</h3>\n\n");
+                 await context.Response.WriteAsync("<div class='display-2'>Error!!!</div>\n\n");
 
                  var exceptionFeatures = context.Features.Get<IExceptionHandlerFeature>();
 
                  if (exceptionFeatures?.Error is FileNotFoundException)
                  {
-                     await context.Response.WriteAsync("<p>File Not Found!</p>\n\n");
+                     await context.Response.WriteAsync("<div class='display-3'>File Not Found!</div>\n\n");
                  }
 
-                 await context.Response.WriteAsync("<a href='/MyException/Index'>Home</a>\n");
+                 await context.Response.WriteAsync("<a href='/MyException'>Go Back</a>\n");
 
                  await context.Response.WriteAsync("</body></html>\n");
                  await context.Response.WriteAsync(new string(' ', 512));
