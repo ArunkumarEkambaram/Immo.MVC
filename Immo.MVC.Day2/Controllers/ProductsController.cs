@@ -1,5 +1,6 @@
 ﻿using Immo.MVC.Day2.Models;
 using Immo.MVC.Day2.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Immo.MVC.Day2.Controllers
                 .Select(p => new ProductWithCategory
                 {
                     Id = p.Id,
-                    ProductName = p.ProductName,                   
+                    ProductName = p.ProductName,
                     CategoryName = p.Category.CategoryName
                 }).ToListAsync();
 
@@ -49,6 +50,7 @@ namespace Immo.MVC.Day2.Controllers
         }
 
         //Create Product - GET
+        [Authorize("AdminOnly")]
         public async Task<IActionResult> Create()
         {
             // ViewBag.Categories = await Categories();
@@ -175,7 +177,7 @@ namespace Immo.MVC.Day2.Controllers
             #endregion
         }
 
-        
+
 
         [NonAction]
         public async Task<IEnumerable<SelectListItem>> Categories()
