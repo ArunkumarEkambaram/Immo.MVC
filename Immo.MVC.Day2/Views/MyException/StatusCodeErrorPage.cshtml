@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Status Code " + ViewBag.ErrorMessage;
+}
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <div class="text-center">
+            <div class="display-2">@ViewBag.ErrorCode</div>
+            <div class="display-5">@ViewBag.ErrorMessage</div>
+        </div>
+    </div>
+</div>
