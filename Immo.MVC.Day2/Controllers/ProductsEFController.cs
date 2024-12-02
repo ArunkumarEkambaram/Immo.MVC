@@ -20,6 +20,12 @@ namespace Immo.MVC.Day2.Controllers
             return View(products);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await _repos.Get(id);
+            return View(product);
+        }
+
         public async Task<IActionResult> Create()
         {
             AddProductViewModel vm = new()
@@ -43,6 +49,12 @@ namespace Immo.MVC.Day2.Controllers
                 return View(vm);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Product product)
+        {
+            return View();
         }
     }
 }

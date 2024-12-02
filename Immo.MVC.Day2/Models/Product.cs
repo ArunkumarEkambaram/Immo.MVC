@@ -29,7 +29,7 @@ namespace Immo.MVC.Day2.Models
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
-        [IgnoreDataMember]
+        [NotMapped]
         public string CategoryName { get; set; }
     }
 }

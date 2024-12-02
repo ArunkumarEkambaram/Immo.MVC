@@ -36,9 +36,10 @@ namespace Immo.MVC.Day2.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Product> Get(int id)
+        public async Task<Product> Get(int id)
         {
-            throw new NotImplementedException();
+            using var connection = _dbContext.GetConnection;
+            return await connection.QueryFirstOrDefaultAsync<Product>("Select Id, ProductName, Price, Quantity from Products Where Id = @Id", new { Id = id });
         }
 
         public async Task<IEnumerable<Product>> GetAll()
