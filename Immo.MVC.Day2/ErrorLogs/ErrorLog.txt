@@ -40,3 +40,22 @@ An error occurred on DateTime :02-12-2024 12:51:43 PM
 
 Controller Name: MyException	Action Name: Index
 Exception Message: Testing Exception Page
+
+
+An error occurred on DateTime :02-12-2024 02:14:20 PM
+
+Controller Name: Products	Action Name: Index
+Exception Message: Unable to divide a number by zero
+
+
+An error occurred on DateTime :02-12-2024 02:14:20 PM
+
+Controller Name: Products	Action Name: Index
+Exception Message: Unable to divide a number by zero
+
+
+An error occurred on DateTime :02-12-2024 03:07:28 PM
+
+Controller Name: ProductsEF	Action Name: Create
+Exception Message: Cannot insert the value NULL into column 'AddedDate', table 'ImmoDB.dbo.Products'; column does not allow nulls. INSERT fails.
+The statement has been terminated.

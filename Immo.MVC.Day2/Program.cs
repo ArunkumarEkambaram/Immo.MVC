@@ -23,10 +23,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 });
 
 //Resolve DI
-builder.Services.AddScoped<IRepositoryWithCategory<Product>, ProductRepository>();
-//builder.Services.AddScoped<CustomExceptionFilter>();
-
-builder.Services.AddScoped<MyAuthorizationFilter>();
+builder.Services.AddSingleton<DapperDbContext>();
+builder.Services.AddScoped<IRepositoryWithCategory<Product>, ProductDapperRepository>();
 
 var app = builder.Build();
 

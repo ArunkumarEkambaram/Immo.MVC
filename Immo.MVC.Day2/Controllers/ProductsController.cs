@@ -1,5 +1,4 @@
-﻿using Immo.MVC.Day2.CustomAttribute;
-using Immo.MVC.Day2.GlobalExceptions;
+﻿using Immo.MVC.Day2.GlobalExceptions;
 using Immo.MVC.Day2.Models;
 using Immo.MVC.Day2.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Immo.MVC.Day2.Controllers
 {
-    [MyAuthorize("AdminOnly")]
+    //  [MyAuthorize("AdminOnly")]
     [TypeFilter(typeof(CustomExceptionFilter))]
     public class ProductsController : Controller
     {
@@ -22,7 +21,7 @@ namespace Immo.MVC.Day2.Controllers
 
         public async Task<IActionResult> Index(string productName)
         {
-            throw new DivideByZeroException("Unable to divide a number by zero");
+            //throw new DivideByZeroException("Unable to divide a number by zero");
             var products = await _dbContext.Products.Include(p => p.Category)
                 .Select(p => new ProductWithCategory
                 {
