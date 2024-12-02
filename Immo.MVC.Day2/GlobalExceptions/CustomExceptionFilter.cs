@@ -9,7 +9,7 @@ namespace Immo.MVC.Day2.GlobalExceptions
             var controller = context.RouteData.Values["controller"];
             var action = context.RouteData.Values["action"];
 
-            string errMsg = $"An error occurred on DateTime :{DateTime.Now}\n\nController Name: {controller}\tAction Name: {action}\nException Message: {context.Exception.Message}\n";
+            string errMsg = $"\n\nAn error occurred on DateTime :{DateTime.Now}\n\nController Name: {controller}\tAction Name: {action}\nException Message: {context.Exception.Message}\n";
             File.AppendAllText(Path.Combine(Directory.GetCurrentDirectory(), "ErrorLogs", "ErrorLog.txt"), errMsg);
         }
     }

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Immo.MVC.Day2.CustomAttribute
 {
-    public class AuthorizeAttibute : TypeFilterAttribute
+    public class MyAuthorizeAttibute : TypeFilterAttribute
     {
-        public AuthorizeAttibute(string permission) : base(typeof(MyAuthorizationFilter))
+        public  MyAuthorizeAttibute(string permission) : base(typeof(MyAuthorizationFilter))
         {
             Arguments = new[] { permission };
         }

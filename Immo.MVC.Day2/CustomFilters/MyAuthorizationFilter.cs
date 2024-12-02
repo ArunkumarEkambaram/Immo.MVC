@@ -8,10 +8,17 @@ namespace Immo.MVC.Day2.CustomFilters
     {
         private readonly string _permission;
 
+        public MyAuthorizationFilter(string permission)
+        {
+            _permission = permission;
+        }
+
         public bool CheckPermission(ClaimsPrincipal principal, string permission)
         {
-            return permission == "AdminOnly";
+            //return permission == "AdminOnly";
+            return principal.HasClaim(c => c.Type == "Permission" && c.Value == permission);
         }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             bool isAuthorizedUser = CheckPermission(context.HttpContext.User, _permission);

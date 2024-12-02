@@ -1,2 +1,42 @@
 
 
+An error occurred on DateTime :02-12-2024 12:23:53 PM
+
+Controller Name: Products	Action Name: Index
+Exception Message: Unable to divide a number by zero
+
+
+An error occurred on DateTime :02-12-2024 12:23:53 PM
+
+Controller Name: Products	Action Name: Index
+Exception Message: Unable to divide a number by zero
+
+
+An error occurred on DateTime :02-12-2024 12:24:04 PM
+
+Controller Name: Products	Action Name: Index
+Exception Message: Unable to divide a number by zero
+
+
+An error occurred on DateTime :02-12-2024 12:24:04 PM
+
+Controller Name: Products	Action Name: Index
+Exception Message: Unable to divide a number by zero
+
+
+An error occurred on DateTime :02-12-2024 12:24:16 PM
+
+Controller Name: MyException	Action Name: Index
+Exception Message: Testing Exception Page
+
+
+An error occurred on DateTime :02-12-2024 12:51:00 PM
+
+Controller Name: MyException	Action Name: Index
+Exception Message: Testing Exception Page
+
+
+An error occurred on DateTime :02-12-2024 12:51:43 PM
+
+Controller Name: MyException	Action Name: Index
+Exception Message: Testing Exception Page
