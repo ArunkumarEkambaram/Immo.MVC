@@ -1,5 +1,2 @@
 
-An error occurred on DateTime :01-12-2024 09:46:14 PM
 
-Controller Name: MyException	Action Name: Index
-Exception Message: Testing Exception Page
