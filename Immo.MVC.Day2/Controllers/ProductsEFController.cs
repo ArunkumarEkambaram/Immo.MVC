@@ -22,7 +22,7 @@ namespace Immo.MVC.Day2.Controllers
 
         public async Task<IActionResult> Create()
         {
-            AddProductViewModel vm = new AddProductViewModel
+            AddProductViewModel vm = new()
             {
                 Categories = await _repos.Categories()
             };
@@ -35,7 +35,7 @@ namespace Immo.MVC.Day2.Controllers
         {
             var result = await _repos.Add(product);
 
-            AddProductViewModel vm = new AddProductViewModel
+            AddProductViewModel vm = new()
             {
                 Categories = await _repos.Categories()
             };

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Immo.MVC.Day2.Models
 {
@@ -27,5 +28,8 @@ namespace Immo.MVC.Day2.Models
         //FK        
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
+
+        [IgnoreDataMember]
+        public string CategoryName { get; set; }
     }
 }
