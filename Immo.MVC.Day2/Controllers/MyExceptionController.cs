@@ -2,8 +2,9 @@
 
 namespace Immo.MVC.Day2.Controllers
 {
+    //[TypeFilter(typeof(CustomExceptionFilter))]    
     public class MyExceptionController : Controller
-    {
+    {      
         public IActionResult Index(int? id)
         {
             if (id == 1)
